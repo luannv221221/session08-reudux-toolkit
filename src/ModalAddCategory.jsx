@@ -6,17 +6,13 @@ import { getCategoriesThunk } from './redux/reducres/categorySlice';
 
 const ModalAddCategory = ({ isModalOpen, handleCancel, handleOk }) => {
     const dispath = useDispatch();
-    const [api, contextHolder] = notification.useNotification();
-    const openNotificationWithIcon = (type) => {
-        api[type]({
-            message: 'Thêm mới thành công'
-        });
-    };
+
+
     const onFinish = (values) => {
         axios.post("http://localhost:8080/api/v1/categories", values).then(response => {
             handleCancel();
             dispath(getCategoriesThunk())
-            openNotificationWithIcon('success')
+            notification.success({ message: 'Thêm mới thành công' })
         }).catch(err => console.log(err))
     };
     const onFinishFailed = (errorInfo) => {
@@ -28,7 +24,7 @@ const ModalAddCategory = ({ isModalOpen, handleCancel, handleOk }) => {
     return (
         <>
             <Modal footer={false} title="Thêm mới danh mục" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                {contextHolder}
+
 
                 <Form
                     name="basic"
