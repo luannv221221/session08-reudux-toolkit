@@ -13,7 +13,7 @@ const categorySlice = createSlice({
     initialState: {
         data: [],
         totalElement: 0,
-        totalPage: 0,
+        pageSize: 0,
         loading: false
     },
     reducers: {},
@@ -26,7 +26,7 @@ const categorySlice = createSlice({
                 state.loading = false;
                 state.data = action.payload.content;
                 state.totalElement = action.payload.totalElements;
-                state.totalPage = action.payload.totalPages
+                state.pageSize = action.payload.size
             })
             .addCase(getCategoriesThunk.rejected, (state, err) => {
                 state.loading = false;

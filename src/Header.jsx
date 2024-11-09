@@ -1,5 +1,6 @@
 import React from 'react'
 import Cart from './Cart'
+import { NavLink } from 'react-router-dom'
 
 const Header = () => {
     return (
@@ -10,7 +11,10 @@ const Header = () => {
                 background: 'red', padding: '15px',
                 color: 'white'
             }}>
-                <div>Header</div>
+                <div>
+                    <NavLink to={"/"}>Home</NavLink>
+                    <NavLink to={"/category"}>Category</NavLink>
+                </div>
                 <Cart />
             </div>
         </>
