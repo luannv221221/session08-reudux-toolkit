@@ -7,6 +7,7 @@ import ProductDetail from './ProductDetail'
 import { Route, Router, Routes } from 'react-router-dom'
 import Home from './Home'
 import Category from './Category'
+import ProductSearch from './ProductSearch'
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <Routes>
         <Route path='/' index element={<Home></Home>}></Route>
         <Route path='/category' element={<Category></Category>}></Route>
+        <Route path='/search' element={<ProductSearch></ProductSearch>}></Route>
       </Routes>
     </>
   )
