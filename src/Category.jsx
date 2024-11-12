@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Modal, Pagination, Spin, Table, Tag } from 'antd'
+import { Button, Modal, Pagination, Spin, Table, Tag, notification } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCategoriesThunk } from './redux/reducres/categorySlice'
-import ModalAddCategory from './ModalAddCategory'
+import ModalCategory from './ModalCategory'
+import axios from 'axios'
 const Category = () => {
     const dispath = useDispatch();
     const [currentPage, setCurrentPage] = useState(1);
@@ -12,9 +13,21 @@ const Category = () => {
     const pageSize = useSelector(state => state.category.pageSize);
     const [flag, setFlag] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [id, setId] = useState()
     const showModal = () => {
+        setId();
         setIsModalOpen(true);
     };
+    const handeleEdit = (id) => {
+        setId(id)
+        setIsModalOpen(true)
+    };
+    const handeleDelete = (id) => {
+        axios.delete(`http://localhost:8080/api/v1/categories/${id}`).then(res => {
+            notification.success({ message: 'xóa thành công' })
+            dispath(getCategoriesThunk({ page: currentPage }));
+        }).catch(err => console.log(err))
+    }
     const handleOk = () => {
         setIsModalOpen(false);
     };
@@ -53,7 +66,18 @@ const Category = () => {
                 <Tag color={categoryStatus ? 'blue' : 'red'}>{categoryStatus ? 'Active' : 'Inactive'}</Tag>
             )
 
-        }
+        },
+        {
+            title: 'Action',
+            dataIndex: 'categoryId',
+            render: (categoryId) => (
+                <>
+                    <Button onClick={() => handeleEdit(categoryId)}>Edit</Button>
+                    <Button color='red' onClick={() => handeleDelete(categoryId)}>Delete</Button>
+                </>
+
+            )
+        },
     ];
     return (
         <>
@@ -68,7 +92,7 @@ const Category = () => {
                         total={totalElement}
                         pageSize={pageSize}
                         onChange={(currentPage) => onChangePage(currentPage)} />
-                    <ModalAddCategory handleCancel={handleCancel} isModalOpen={isModalOpen} handleOk={handleOk} />
+                    <ModalCategory id={id} handleCancel={handleCancel} isModalOpen={isModalOpen} handleOk={handleOk} />
                 </>}
 
         </>
